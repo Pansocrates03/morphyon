@@ -15,7 +15,8 @@ HTML_TEMPLATE = """
 </html>
 """
 
-def build(components):
+def builder(components):
+
     # Check if the components are valid
     if not all(hasattr(x, "render") and callable(x.render) for x in components):
         raise ValueError("Todos los elementos en 'content' deben tener un método 'render'")

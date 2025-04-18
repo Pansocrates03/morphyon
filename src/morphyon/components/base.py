@@ -1,14 +1,28 @@
 from ..utils.helpers import createUniqueId
 
+from ..attributes import Attributes
+from ..styles import Style
+
+
+
+
 class Component:
 
     # Create a simple component class
-    def __init__(self, content=None):
-        self.tag = "div"
-        self.id = None
-        self.class_name = createUniqueId()
+    def __init__(
+        self,
+        content=None,
+        tag: str = "div",
+        attributes: Attributes = Attributes(),
+        style: Style = Style()
+    ):
+        self.tag = tag
+        self.attributes = attributes
         self.content = content
-        self.style = None
+        self.style = style
+
+        self.attributes.setAttribute('class_name', createUniqueId())
+        
     
     # SETTERS
     def set_tag(self, tag: str):
@@ -16,19 +30,12 @@ class Component:
             raise ValueError(f"Tag '{tag}' is not supported.")
         self.tag = tag
         return self
-    
-    def set_id(self, id):
-        self.id = id
-        return self
-    def set_class(self, class_name):
-        self.class_name = class_name
-        return self
+    def set_attributes(self, attr: Attributes):
+        self.attributes = attr
     def set_content(self, content):
         self.content = content
-        return self
     def set_style(self, style):
         self.style = style
-        return self
     
     # GETTERS
     def get_tag(self): return self.tag
@@ -39,14 +46,18 @@ class Component:
     
     # RENDER
     def render(self) -> tuple[str, str]:
+
         # Process the content based on its type
         rendered_content = ""
         css_content = ""
         
+        # If there is nothing to render
         if self.content is None:
             rendered_content = ""
+        # If content is a string
         elif isinstance(self.content, str):
             rendered_content = self.content
+        # If content is another component
         elif isinstance(self.content, Component):
             # If content is a single component
             html, css = self.content.render()
@@ -62,14 +73,11 @@ class Component:
                 elif isinstance(item, str):
                     rendered_content += item
                 # Ignore other types
-
-        id_attr = f' id="{self.id}"' if self.id else ""
-        class_attr = f' class="{self.class_name}"' if self.class_name else ""
         
-        HTML_ELEMENT = f"\n<{self.tag}{id_attr}{class_attr}>{rendered_content}</{self.tag}>"
+        HTML_ELEMENT = f"\n<{self.tag}{self.attributes.render()}>{rendered_content}</{self.tag}>"
         
         # Add the component's own CSS if it has style
         if self.style:
-            css_content += self.style.render(self.class_name)
+            css_content += self.style.render(self.attributes.class_name)
         
         return (HTML_ELEMENT, css_content)

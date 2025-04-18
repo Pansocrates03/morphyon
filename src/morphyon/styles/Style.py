@@ -1,6 +1,6 @@
 class Style:
 
-    def __init__(self):
+    def __init__(self, styleObj = {}):
 
         self.accent_color = None
         self.align_content = None
@@ -377,6 +377,12 @@ class Style:
 
         self.z_index = None
         self.zoom = None
+
+        for prop, value in styleObj.items():  # Use .items() to iterate over key-value pairs
+            if hasattr(self, prop): 
+                setattr(self, prop, value)
+            else: 
+                raise ValueError(f"Property {prop} is not supported")
 
 
     # SETTERS

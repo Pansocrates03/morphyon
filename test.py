@@ -1,13 +1,22 @@
-from src.py2web import Component, Style, Button, Header, build
+from src.morphyon import Morphyon
+from src.morphyon.components import Button, Component, Header, Input, ListC
+from src.morphyon.attributes import Attributes
+from src.morphyon.styles import Style
 
-listOfCOmponentes = [
-    Header("Hello World"),
-    
-    Component([
-        Button("Click Me"),
-        Button("Click 2")
-    ]).set_tag("div").set_style(Style().set_property("background_color", "green").set_property("color", "white")),
-]
+myComponent = Component(
+    style=Style({"color": "red"}),
+    content="This Is My Content"
+)
 
-# Build the components into an index.html file
-build(listOfCOmponentes)
+mybutton = Button(
+    content="click me"
+)
+
+myList = ListC(isOrdered=False, items=["One", "Two", "Three"])
+
+app = Morphyon()
+app.addComponent(mybutton)
+app.addComponent(mybutton)
+app.addComponent(myList)
+app.build()
+app.listen(port=8000)
