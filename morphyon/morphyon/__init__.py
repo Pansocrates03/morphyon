@@ -4,7 +4,6 @@ from .styles import Style
 from .utils import builder
 from typing import List
 import uvicorn
-import os
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -13,7 +12,6 @@ from fastapi.staticfiles import StaticFiles
 
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import time
 import threading
 
 # Puedes definir __all__ para controlar lo que se expone con "from mi_libreria import *"
@@ -31,9 +29,7 @@ class Morphyon:
         if(len(self.content) <= 0):
             print("ERROR: App cannot be empty")
             return
-        print("Building...")
         builder(self.content)
-        print("Finished Building")
 
     def listen(self, port: int = 5050, watch_dir: str = "./src", watch_patterns: list = ["*..py"]):
         # Construir inicialmente

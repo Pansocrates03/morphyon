@@ -16,7 +16,6 @@ class Button(Component):
         ) 
         super().__init__(content)
         self.tag = "button"
-        self.class_name = createUniqueId()
         self.style = defaultStyle
 
     def render(self) -> tuple[str, str]:

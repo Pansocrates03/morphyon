@@ -1,22 +1,40 @@
-# Py2Web
+# Morphyon
 
-Py2web is a frontend framework made in python made for you to bee able to create webpages using only Python language
+Morphyon is a frontend framework made in python made for you to bee able to create webpages using only Python language
 
 Example usage
 ```py
-from src.py2web import Component, Style, Button, Header, build
+# Import Master Class
+from src.morphyon import Morphyon
 
-listOfCOmponentes = [
-    Header("Hello World"),
-    
-    Component([
-        Button("Click Me"),
-        Button("Click 2")
-    ]).set_tag("div").set_style(Style().set_property("background_color", "green").set_property("color", "white")),
-]
+# Import Components
+from src.morphyon.components import Button, Component, Header, Input, ListC
 
-# Build the components into an index.html file
-build(listOfCOmponentes)
+# Import Other Objects
+from src.morphyon.attributes import Attributes
+from src.morphyon.styles import Style
 
-print("Build completed.")
+# Create an empty Component
+myComponent = Component(
+    style=Style({"color": "red"}),
+    content="This Is My Content"
+)
+
+myButton = Button("Click me")
+
+# Start the app
+app = Morphyon()
+
+# Add components
+app.addComponent(Header("This  is my header"))
+app.addComponent(myComponent)
+app.addComponent(Input("hfdius","jdfks"))
+app.addComponent(ListC(True, ["1", "dsaas", "dfjk"]))
+app.addComponent(myButton)
+
+# Build the app
+app.build()
+
+# Host the app
+#app.listen(port=8000)
 ```

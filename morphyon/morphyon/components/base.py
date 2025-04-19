@@ -2,9 +2,7 @@ from ..utils.helpers import createUniqueId
 
 from ..attributes import Attributes
 from ..styles import Style
-
-
-
+from copy import deepcopy
 
 class Component:
 
@@ -14,14 +12,15 @@ class Component:
         content=None,
         tag: str = "div",
         attributes: Attributes = Attributes(),
-        style: Style = Style()
+        style: Style = None
     ):
         self.tag = tag
-        self.attributes = attributes
+        self.attributes = deepcopy(attributes)
+        self.style = style if style is not None else Style()
         self.content = content
-        self.style = style
 
-        self.attributes.setAttribute('class_name', createUniqueId())
+        newID = createUniqueId()
+        self.attributes.setAttribute('class_name', newID)
         
     
     # SETTERS
@@ -39,8 +38,6 @@ class Component:
     
     # GETTERS
     def get_tag(self): return self.tag
-    def get_id(self): return self.id
-    def get_class(self): return self.class_name
     def get_content(self): return self.content
     def get_style(self): return self.style
     
